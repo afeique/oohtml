@@ -1,7 +1,5 @@
 <?php
 
-require_once '../error/error.php';
-
 /**
  * a container contains other renderable objects (anything with a __toString() method)
  * used to group multiple renderable objects together into a single object to be passed around

@@ -5,7 +5,7 @@ by afeique sheikh
 This is a small set of classes and helper methods for quickly generating and manipulating HTML within PHP using PHP objects and method chaining.
 
 ## dependencies
-Requires my [error class](https://github.com/afeique/error). Place the `error` directory in the same directory as the `oohtml` directory, or just modify the `require_once()` statements to your liking.
+Requires my [error class](https://github.com/afeique/error) to be called via `include()` or `require()` beforehand.
 
 ## license
 All code herein is under the public domain and may be used freely for any purpose, commercial or otherwise.
