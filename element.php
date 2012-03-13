@@ -1,10 +1,8 @@
 <?php
 
-require 'container.php';
-
 /**
  * an element represents an html element
- * it is a container so it can contain other tags as well
+ * it can be embedded with other renderable elements
  * 
  * besides having shortcuts for setting common attributes,
  * the ::__toString method automatically renders opening/closing
@@ -21,32 +19,97 @@ require 'container.php';
  * 
  * using this class, it is possible to construct any html tag
  * 
- * like with real html however, the validity of the tag is left
- * to your discretion - for simplicity, this class does no validity
- * checking
+ * like with real html, the validity of the tag is left
+ * to discretion - this class does no validity checking
  * 
  */
-class element extends container {
-  protected $name;
-  protected $self_closing;
-  protected $attributes;
-  protected $class;
-
+class element {
   /**
-   *
+   * string containing rendered embedded content (content is rendered
+   * as soon as it is embedded)
+   * 
+   * @var string
    */
+  protected $content;
+  
+  /**
+   * string containing the element's name
+   * 
+   * @var string
+   */
+  protected $name;
+  
+  /**
+   * == true - element is self-closing (e.g. <br />)
+   * == false - element is not self-closing
+   * 
+   * @var mixed
+   */
+  protected $self_closing;
+  
+  /**
+   * array of non-class attributes for the element (e.g. id, etc)
+   * 
+   * @var array
+   */
+  protected $attributes;
+  
+  /**
+   * array of classes for the element
+   * 
+   * @var array
+   */
+  protected $class;
+  
   public function __construct($name, $self_closing=0) {
-    if (!is_string($name))
-      throw error::expecting_string();
-    
-    // instantiates: $this->content = array();
-    parent::__construct();
-
-    // instantiates remaining attributes
-    $this->name = $name;
-    $this->self_closing = $self_closing ? 1 : 0;
-    $this->attributes = array();
-    $this->class = array();
+  	if (!is_string($name))
+  		throw error::expecting_string();
+  
+  	$this->content = '';
+  	$this->name = $name;
+  	$this->self_closing = $self_closing;
+  	$this->attributes = array();
+  	$this->class = array();
+  }
+  
+  /**
+   * embed renderable content
+   *
+   * enter each piece of content as
+   * as a separate arg
+   *
+   * e.g. $container->e($content, $more_content, ...)
+   *
+   * returns $this for chaining
+   *
+   * renders content in the order it was embedded,
+   * see ::__toString method below
+   */
+  public function e() {
+  	$contents = func_get_args();
+  
+  	foreach ($contents as $content) {
+  		if (is_array($content)) {
+  		  foreach ($content as $c)
+  		    $this->e($c);
+  		} elseif ($this->is_renderable($content)) {
+  		  $this->content .= ''.$content;
+  		}
+  	}
+  
+  	return $this;
+  }
+  
+  protected function is_renderable($content) {
+    if (is_scalar($content)) {
+      return 1;
+    } elseif (is_array($content)) {
+      return 1;
+    } elseif (is_object($content) && method_exists($content, '__toString')) {
+      return 1;
+    }
+  
+  	throw error::expecting_renderable();
   }
 
   /**
@@ -201,7 +264,8 @@ class element extends container {
       $html .= '>';
       	
       // render any content
-      $html .= parent::__toString();
+      if ($this->content)
+        $html .= $this->content;
       	
       // close the tag
       $html .= '</'.$this->name.'>';

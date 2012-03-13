@@ -8,19 +8,6 @@ require_once 'element.php';
  */
 
 /**
- * doesn't o look like a container?
- */
-function o() {
-  $o = new container();
-  $args = func_get_args();
-  foreach ($args as $content) {
-    $o->e($content);
-  }
-  
-  return $o;
-}
-
-/**
  * blocks are chunks of content drawn from /blocks
  * they are passed through an output buffer, so it is 
  * okay to embed PHP within a block
@@ -128,7 +115,7 @@ function sup() {
 
 function script() {
   $args = func_get_args();
-  return l('script')->e($args);
+  return l('script')->t('text/javascript')->e($args);
 }
 
 /**
