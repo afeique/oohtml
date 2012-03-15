@@ -115,7 +115,7 @@ class element {
   /**
    * set the specified html $attribute.
    * 
-   * returns $this for chaining.
+   * returns $this for chaining
    * 
    */
   public function _($attribute, $value=null) {
@@ -136,7 +136,7 @@ class element {
   /**
    * shortcut for setting html attribute 'id'
    * 
-   * returns $this for chaining.
+   * returns $this for chaining
    * 
    */
   public function i($id) {
@@ -146,7 +146,7 @@ class element {
   /**
    * shortcut for setting html attribute 'href'
    * 
-   * returns $this for chaining.
+   * returns $this for chaining
    * 
    */
   public function h($href) {
@@ -156,7 +156,7 @@ class element {
   /**
    * shortcut for setting html attribute 'for'
    *
-   * returns $this for chaining.
+   * returns $this for chaining
    *
    */
   public function f($for) {
@@ -166,17 +166,17 @@ class element {
   /**
    * shortcut for setting html attribute 'action'
    *
-   * returns $this for chaining.
+   * returns $this for chaining
    *
    */
   public function a($action) {
-    return $this->_('action', BASE_URL.$action);
+    return $this->_('action', $action);
   }
   
   /**
    * shortcut for setting html attribute 'method'
    *
-   * returns $this for chaining.
+   * returns $this for chaining
    *
    */
   public function m($method) {
@@ -186,7 +186,7 @@ class element {
   /**
    * shortcut for setting html attribute 'name'
    *
-   * returns $this for chaining.
+   * returns $this for chaining
    *
    */
   public function n($name) {
@@ -194,9 +194,18 @@ class element {
   }
   
   /**
+   * shortcut for setting 'id' and 'name' simultaneously to the same value
+   * 
+   * returns $this for chaining
+   */
+  public function in($value) {
+    return $this->_('id', $value)->_('name', $value);
+  }
+  
+  /**
    * shortcut for setting html attribute 'type'
    *
-   * returns $this for chaining.
+   * returns $this for chaining
    *
    */
   public function t($type) {
@@ -206,7 +215,7 @@ class element {
   /**
    * shortcut for setting html attribute 'value'
    *
-   * returns $this for chaining.
+   * returns $this for chaining
    *
    */
   public function v($value) {
@@ -216,7 +225,7 @@ class element {
   /**
    * shortcut for setting html attribute 'style'
    *
-   * returns $this for chaining.
+   * returns $this for chaining
    *
    */
   public function s($value) {
